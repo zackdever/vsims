@@ -1,0 +1,5 @@
+SET a 10
+GET a
+UNSET a
+GET a
+END
