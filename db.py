@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+from collections import Counter
 
 class DB:
     store = {}
@@ -28,25 +29,25 @@ class DB:
 
         Neither variable names or values will ever contain spaces.
         """
-        print key, value
+        self.store[key] = value
 
     def get(self, key):
         """GET [name]: Print out the value stored under the variable [name].
 
         Print NULL if that variable name hasn't been set.
         """
-        print key
+        print self.store[key] if self.store.has_key(key) else 'NULLL'
 
     def unset(self, key):
         """UNSET [name]: Unset the variable [name]."""
-        print key
+        del self.store[key]
 
     def numequalto(self, value):
         """NUMEQUALTO [value]: Return the number of variables equal to [value].
 
         If no values are equal, this should output 0.
         """
-        print value
+        print Counter(v for k, v in self.store.iteritems())[value]
 
     def end(self):
         """END: Exit the program."""
