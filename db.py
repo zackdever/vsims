@@ -1,4 +1,61 @@
+#!/usr/bin/env python
+
+import sys
+
+class DB:
+    store = {}
+
+    def run(self, query):
+        tokens = query.split(' ')
+        command = tokens[0]
+        args = tokens[1:]
+
+        if command == 'SET':
+            self.set(*args)
+        elif command == 'GET':
+            self.get(*args)
+        elif command == 'UNSET':
+            self.unset(*args)
+        elif command == 'NUMEQUALTO':
+            self.numequalto(*args)
+        elif command == 'END':
+            self.end(*args)
+        else:
+            print '[ERROR] Unrecognized command:', command
+
+    def set(self, key, value):
+        """SET [name] [value]: Set a variable [name] to the value [value].
+
+        Neither variable names or values will ever contain spaces.
+        """
+        print key, value
+
+    def get(self, key):
+        """GET [name]: Print out the value stored under the variable [name].
+
+        Print NULL if that variable name hasn't been set.
+        """
+        print key
+
+    def unset(self, key):
+        """UNSET [name]: Unset the variable [name]."""
+        print key
+
+    def numequalto(self, value):
+        """NUMEQUALTO [value]: Return the number of variables equal to [value].
+
+        If no values are equal, this should output 0.
+        """
+        print value
+
+    def end(self):
+        """END: Exit the program."""
+        sys.exit
+
 if __name__ == '__main__':
-    import sys
+    db = DB()
+
     for line in sys.stdin:
-        print line
+        line = line.strip()
+        if line:
+            db.run(line)
