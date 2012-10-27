@@ -5,7 +5,7 @@ from collections import Counter
 
 class DB:
     # Commands are implicity mapped to methods of the same name, but lowercased.
-    commands = ['SET', 'GET', 'UNSET', 'NUMEQUALTO', 'END']
+    commands = ['SET', 'GET', 'UNSET', 'NUMEQUALTO', 'BEGIN', 'ROLLBACK', 'COMMIT', 'END']
     store = {}
 
     def run(self, query):
@@ -46,6 +46,23 @@ class DB:
         If no values are equal, this should output 0.
         """
         return Counter(v for k, v in self.store.iteritems())[value]
+
+    def begin(self):
+        """BEGIN: Open a transactional block."""
+        pass
+
+    def rollback(self):
+        """ROLLBACK: Rollback all of the commands from the most recent transaction block.
+
+        If no transactional block is open, print out INVALID ROLLBACK.
+        """
+        pass
+
+    def commit(self):
+        """COMMIT: Permanently store all of the operations from any presently
+        open transactional blocks.
+        """
+        pass
 
     def end(self):
         """END: Exit the program."""
