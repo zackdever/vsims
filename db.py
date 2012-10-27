@@ -39,7 +39,7 @@ class DB:
 
         Print NULL if that variable name hasn't been set.
         """
-        return self.store[key] if self.store.has_key(key) else 'NULLL'
+        return self.store[key] if self.store.has_key(key) else 'NULL'
 
     def unset(self, key):
         """UNSET [name]: Unset the variable [name]."""
