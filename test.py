@@ -15,22 +15,26 @@ def test(name):
     queries = read_lines('./test/%sinput.txt' % name)
     expected = read_lines('./test/%soutput.txt' % name)
     results = run_queries(queries)
-    win, fail = '✓', '✗'
+
+    win, fail, newline = '✓', '✗', True
 
     if len(expected) != len(results):
-        print '%s - Output results differ in length' % fail
-        print 'Expected\n', expected
-        print 'Actual\n', results
+        print '%s Output results differ in length' % fail
+        print 'expected:', expected
+        print 'actual:', results
     else:
         for i, result in enumerate(results):
             correct = expected[i]
             if str(result) == correct:
-                print '%s - expected and actual: %s' % (win, correct)
+                print win, #'%s - expected and actual: %s' % (win, correct)
+                newline = False
             else:
-                print '%s - expected: "%s", actual: "%s"' % (fail, correct, result)
+                if not newline:
+                    print ''
+                print '%s expected: %s, actual: %s' % (fail, correct, result)
+                newline = True
 
-    print 'Completed %s.' % name
-    print ''
+    print '' if newline else '\n'
 
 def run_queries(queries):
     """Runs each query and returns a list of results."""
@@ -63,5 +67,8 @@ if __name__ == '__main__':
     test('test1')
     test('test2')
     test('test3')
+    test('test4')
+    test('test5')
+    test('test6')
 
 
