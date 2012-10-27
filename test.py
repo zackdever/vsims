@@ -12,8 +12,8 @@ def test(name):
     print 'Running: %s' % name
     print '-' * 30
 
-    commands = read_lines('%sinput.txt' % name)
-    expected = read_lines('%soutput.txt' % name)
+    commands = read_lines('./test/%sinput.txt' % name)
+    expected = read_lines('./test/%soutput.txt' % name)
     actual = run_commands(commands)
     win, fail = '✓', '✗'
 
