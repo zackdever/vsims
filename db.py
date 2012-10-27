@@ -11,18 +11,21 @@ class DB:
         command = tokens[0]
         args = tokens[1:]
 
-        if command == 'SET':
-            self.set(*args)
-        elif command == 'GET':
-            self.get(*args)
-        elif command == 'UNSET':
-            self.unset(*args)
-        elif command == 'NUMEQUALTO':
-            self.numequalto(*args)
-        elif command == 'END':
-            self.end(*args)
-        else:
-            print '[ERROR] Unrecognized command:', command
+        try:
+            if command == 'SET':
+                return self.set(*args)
+            elif command == 'GET':
+                return self.get(*args)
+            elif command == 'UNSET':
+                return self.unset(*args)
+            elif command == 'NUMEQUALTO':
+                return self.numequalto(*args)
+            elif command == 'END':
+                return self.end(*args)
+            else:
+                return '[ERROR] Unrecognized command: %s' % command
+        except TypeError:
+            return '[ERROR] Probably incorrect arguments for command: %s' % command
 
     def set(self, key, value):
         """SET [name] [value]: Set a variable [name] to the value [value].
@@ -36,27 +39,30 @@ class DB:
 
         Print NULL if that variable name hasn't been set.
         """
-        print self.store[key] if self.store.has_key(key) else 'NULLL'
+        return self.store[key] if self.store.has_key(key) else 'NULLL'
 
     def unset(self, key):
         """UNSET [name]: Unset the variable [name]."""
-        del self.store[key]
+        if self.store.has_key(key):
+            del self.store[key]
 
     def numequalto(self, value):
         """NUMEQUALTO [value]: Return the number of variables equal to [value].
 
         If no values are equal, this should output 0.
         """
-        print Counter(v for k, v in self.store.iteritems())[value]
+        return Counter(v for k, v in self.store.iteritems())[value]
 
     def end(self):
         """END: Exit the program."""
-        sys.exit
+        sys.exit()
 
 if __name__ == '__main__':
     db = DB()
 
-    for line in sys.stdin:
-        line = line.strip()
-        if line:
-            db.run(line)
+    while True:
+        line = raw_input().strip()
+        if line != None:
+            result = db.run(line)
+            if result != None:
+                print result
