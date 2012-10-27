@@ -1,46 +1,54 @@
 from collections import Counter
 
-class NestedStore:
-    blocks = [{}]
-    base = blocks[0]
+class Block:
+    def __init__(self):
+        self.ops = []
 
-    def set(self, key, value):
-        self.blocks[-1][key] = value
+    def log(self, command, *args):
+        self.ops.append((command, args))
+
+    def rollback(self):
+        for op in reversed(self.ops):
+            op[0](*op[1])
+
+class NestedStore:
+    def __init__(self):
+        self.store = {}
+        self.blocks = []
+
+    def set(self, key, value, doLog=True):
+        if not self.is_flat() and doLog:
+            block = self.blocks[-1]
+            if self.has_key(key):
+                block.log(self.set, key, self.get(key), False)
+            else:
+                block.log(self.delete, key, False)
+
+        self.store[key] = value
 
     def get(self, key):
-        for block in reversed(self.blocks):
-            if block.has_key(key):
-                return block[key]
+        return self.store[key]
 
     def has_key(self, key):
-        for block in reversed(self.blocks):
-            if block.has_key(key):
-                return True
+        return self.store.has_key(key)
 
-        return False
-
-    def delete(self, key):
-        #TODO deletes neeed to be localized to this block
-        for block in reversed(self.blocks):
-            if block.has_key(key):
-                del block[key]
+    def delete(self, key, doLog=True):
+        if self.has_key(key):
+            if not self.is_flat() and doLog:
+                self.blocks[-1].log(self.set, key, self.get(key), False)
+            del self.store[key]
 
     def nest(self):
-        self.blocks.append({})
+        self.blocks.append(Block())
 
     def pop_nest(self):
-        self.blocks.pop()
+        self.blocks.pop().rollback()
 
     def flatten(self):
-        for block in self.blocks:
-            for key, value in block.iteritems():
-                self.base[key] = value
-
-        self.blocks = self.blocks[:1]
+        self.blocks = []
 
     def is_flat(self):
-        return len(self.blocks) == 1
+        return len(self.blocks) == 0
 
     def numequalto(self, value):
-        #TODO this isn't nested
-        return Counter(v for k, v in self.blocks[-1].iteritems())[value]
+        return Counter(v for k, v in self.store.iteritems())[value]
