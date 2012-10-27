@@ -6,23 +6,23 @@ from db import DB
 def test(name):
     """Tests results from running <name>input.txt against <name>output.txt.
 
-    <name>input.txt - Each line in file is ran as a DB command.
-    <name>output.txt - The output of running the input commands should match this file.
+    <name>input.txt - Each line in file is ran as a DB query.
+    <name>output.txt - The output of running the queries should match this file.
     """
     print 'Running: %s' % name
     print '-' * 30
 
-    commands = read_lines('./test/%sinput.txt' % name)
+    queries = read_lines('./test/%sinput.txt' % name)
     expected = read_lines('./test/%soutput.txt' % name)
-    actual = run_commands(commands)
+    results = run_queries(queries)
     win, fail = '✓', '✗'
 
-    if len(expected) != len(actual):
-        print '%s - Output lines differ in length' % fail
+    if len(expected) != len(results):
+        print '%s - Output results differ in length' % fail
         print 'Expected\n', expected
-        print 'Actual\n', actual
+        print 'Actual\n', results
     else:
-        for i, result in enumerate(actual):
+        for i, result in enumerate(results):
             correct = expected[i]
             if str(result) == correct:
                 print '%s - expected and actual: %s' % (win, correct)
@@ -32,14 +32,14 @@ def test(name):
     print 'Completed %s.' % name
     print ''
 
-def run_commands(commands):
-    """Runs each command and returns a list of results."""
+def run_queries(queries):
+    """Runs each query and returns a list of results."""
     db = DB()
     results = []
 
-    for command in commands:
+    for query in queries:
         try:
-            result = db.run(command)
+            result = db.run(query)
             if result != None:
                 results.append(result)
         except SystemExit:
@@ -62,5 +62,6 @@ def read_lines(filename):
 if __name__ == '__main__':
     test('test1')
     test('test2')
+    test('test3')
 
 

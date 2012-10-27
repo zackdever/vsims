@@ -4,28 +4,22 @@ import sys
 from collections import Counter
 
 class DB:
+    # Commands are implicity mapped to methods of the same name, but lowercased.
+    commands = ['SET', 'GET', 'UNSET', 'NUMEQUALTO', 'END']
     store = {}
 
     def run(self, query):
+        """Runs the provided query and returns the result."""
         tokens = query.split(' ')
-        command = tokens[0]
-        args = tokens[1:]
+        command, args = tokens[0], tokens[1:]
 
-        try:
-            if command == 'SET':
-                return self.set(*args)
-            elif command == 'GET':
-                return self.get(*args)
-            elif command == 'UNSET':
-                return self.unset(*args)
-            elif command == 'NUMEQUALTO':
-                return self.numequalto(*args)
-            elif command == 'END':
-                return self.end(*args)
-            else:
-                return '[ERROR] Unrecognized command: %s' % command
-        except TypeError:
-            return '[ERROR] Probably incorrect arguments for command: %s' % command
+        if command in self.commands:
+            try:
+                return DB.__dict__[command.lower()](self, *args)
+            except TypeError:
+                return '[ERROR] Probably incorrect arguments for command: %s' % command
+        else:
+            return '[ERROR] Unrecognized command: %s' % command
 
     def set(self, key, value):
         """SET [name] [value]: Set a variable [name] to the value [value].
@@ -61,8 +55,8 @@ if __name__ == '__main__':
     db = DB()
 
     while True:
-        line = raw_input().strip()
-        if line != None:
-            result = db.run(line)
+        query = raw_input().strip()
+        if query != None:
+            result = db.run(query)
             if result != None:
                 print result
