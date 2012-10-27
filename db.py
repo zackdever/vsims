@@ -4,16 +4,20 @@ import sys
 from nestedStore import NestedStore
 
 class DB:
+    """A simple in-memory key-value store with nested transactional blocks."""
+
     # Commands are implicity mapped to methods of the same name, but lowercased.
     commands = ['SET', 'GET', 'UNSET', 'NUMEQUALTO', 'BEGIN', 'ROLLBACK', 'COMMIT', 'END']
-    store = NestedStore()
+
+    def __init__(self):
+        self.store = NestedStore()
 
     def run(self, query):
         """Runs the provided query and returns the result."""
         tokens = query.split(' ')
         command, args = tokens[0], tokens[1:]
 
-        if command in self.commands:
+        if command in DB.commands:
             try:
                 return DB.__dict__[command.lower()](self, *args)
             except TypeError:
