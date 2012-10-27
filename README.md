@@ -1,7 +1,7 @@
-Thumbtack Programming Challenge - Problem 2: Simple Database
-============================================================
+vsims
+=====
 
-A simple in-memory key-value store with nested transactional blocks.
+A *very simple in-memory* key-value *store* with nested transactional blocks, built for the [Thumbtack Programming Challenge][0].
 
 Supported Commands
 ------------------
@@ -35,10 +35,10 @@ example inputs and outputs below.
 
     $ python test.py
 
-Site Instructions:
-------------------
+Instructions Copied from [Thumbtack][0]:
+-----------------------------------
 
-Full Description: http://www.thumbtack.com/challenges
+### Problem 2: Simple Database
 
 Your task is create a very simple in-memory database, which has a very
 limited command set. All of the commands are going to be fed to you
@@ -190,3 +190,5 @@ __Output:__
     1
     0
     1
+
+[0]: http://www.thumbtack.com/challenges
