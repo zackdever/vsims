@@ -53,15 +53,8 @@ def run_queries(queries):
 
 def read_lines(filename):
     """Read and sanitize lines in file."""
-    lines = []
-
     with open(filename, 'r') as f:
-        for line in f.readlines():
-            line = line.strip()
-            if line:
-                lines.append(line)
-
-    return lines
+        return [line.strip() for line in f if line.strip() != None]
 
 if __name__ == '__main__':
     test('test1')
