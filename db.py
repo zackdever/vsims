@@ -65,9 +65,7 @@ class DB:
             self.store.pop_nest()
 
     def commit(self):
-        """COMMIT: Permanently store all of the operations from any presently
-        open transactional blocks.
-        """
+        """COMMIT: Closes all open transactional blocks."""
         self.store.flatten()
 
     def end(self):
