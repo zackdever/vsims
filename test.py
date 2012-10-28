@@ -9,29 +9,29 @@ def test(name):
     <name>input.txt - Each line in file is ran as a DB query.
     <name>output.txt - The output of running the queries should match this file.
     """
-    print 'Running: %s' % name
+    print 'Running: {}'.format(name)
     print '-' * 30
 
-    queries = read_lines('./test/%sinput.txt' % name)
-    expected = read_lines('./test/%soutput.txt' % name)
+    queries = read_lines('./test/{}input.txt'.format(name))
+    expected = read_lines('./test/{}output.txt'.format(name))
     results = run_queries(queries)
 
     win, fail, newline = '✓', '✗', True
 
     if len(expected) != len(results):
-        print '%s Output results differ in length' % fail
+        print '{} Output results differ in length'.format(fail)
         print 'expected:', expected
         print 'actual:', results
     else:
         for i, result in enumerate(results):
             correct = expected[i]
             if str(result) == correct:
-                print win, #'%s - expected and actual: %s' % (win, correct)
+                print win
                 newline = False
             else:
                 if not newline:
                     print ''
-                print '%s expected: %s, actual: %s' % (fail, correct, result)
+                print '{} expected: {}, actual: {}'.format(fail, correct, result)
                 newline = True
 
     print '' if newline else '\n'

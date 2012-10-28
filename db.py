@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import sys
 from nestedstore import NestedStore
+import sys
 
 class DB:
     """A simple in-memory key-value store with nested transactional blocks."""
@@ -15,15 +15,15 @@ class DB:
     def run(self, query):
         """Runs the provided query and returns the result."""
         tokens = query.split(' ')
-        command, args = tokens[0], tokens[1:]
+        command, args = tokens[0], (self._parse_token_(token) for token in tokens[1:])
 
         if command in DB.commands:
             try:
                 return DB.__dict__[command.lower()](self, *args)
             except TypeError:
-                return '[ERROR] Probably incorrect arguments for command: %s' % command
+                return '[ERROR] Probably incorrect arguments for command: {}'.format(command)
         else:
-            return '[ERROR] Unrecognized command: %s' % command
+            return '[ERROR] Unrecognized command: {}'.format(command)
 
     def set(self, key, value):
         """SET [name] [value]: Set a variable [name] to the value [value].
@@ -71,6 +71,20 @@ class DB:
     def end(self):
         """END: Exit the program."""
         sys.exit()
+
+    def _parse_token_(self, token):
+        """Converts the token into an int or float if applicable.
+
+        token - the string to parse
+        Returns the token as is, or as an int or float if possible.
+        """
+        try:
+            return int(token)
+        except ValueError:
+            try:
+                return float(token)
+            except ValueError:
+                return token
 
 if __name__ == '__main__':
     db = DB()
