@@ -93,7 +93,7 @@ def shell():
     db = DB()
 
     while True:
-        query = raw_input().strip()
+        query = sys.stdin.readline().strip()
         if query != None:
             result = db.run(query)
             if result != None:

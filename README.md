@@ -17,13 +17,14 @@ END
 Works over `stdin` and `stdout`.
 
 ```shell
-$ python setup.py -q shell < input.txt > output.txt
+$ (echo 'SET a 42'; echo 'GET a'; echo 'END') | python setup.py -q shell
+42
 ```
 
 The DB can be invoked directly if you fancy it.
 
 ```shell
-$ python vsims/db.py < input.txt > output.txt
+$ python vsims/db.py < test/data/basic-1-in.txt > out.txt
 ```
 
 Test
