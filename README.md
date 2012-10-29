@@ -7,23 +7,23 @@ Quick Start
 -----------
 
 ```shell
-    $ python setup.py -q shell
-    SET a 42
-    GET a
-    42
-    END
+$ python setup.py -q shell
+SET a 42
+GET a
+42
+END
 ```
 
 Works over `stdin` and `stdout`.
 
 ```shell
-    $ python setup.py -q shell < input.txt > output.txt
+$ python setup.py -q shell < input.txt > output.txt
 ```
 
 The DB can be invoked directly if you fancy it.
 
 ```shell
-    $ python vsims/db.py < input.txt > output.txt
+$ python vsims/db.py < input.txt > output.txt
 ```
 
 Test
@@ -31,7 +31,7 @@ Test
 To test the thumbtack examples:
 
 ```shell
-    $ python setup.py test
+$ python setup.py test
 ```
 
 Install and Python Use
@@ -39,17 +39,17 @@ Install and Python Use
 You already made a virtualenv right?
 
 ```shell
-    $ python setup.py install
+$ python setup.py install
 ```
 
 Just make a new database and you're all set!
 
 ```python
-    >>> import vsims
-    >>> db = vsims.DB()
-    >>> db.set('a', 42)
-    >>> db.get('a')
-    42
+>>> import vsims
+>>> db = vsims.DB()
+>>> db.set('a', 42)
+>>> db.get('a')
+42
 ```
 
 Instructions Copied from [Thumbtack][0]:
