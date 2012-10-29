@@ -1,67 +1,73 @@
 #!/usr/bin/env python
-# -*- coding: utf8 -*-
+
+import unittest
 
 from db import DB
 
-def test(name):
-    """Tests results from running <name>input.txt against <name>output.txt.
+class ThumbtackIntegrationTest(unittest.TestCase):
+    def setUp(self):
+        self.actual_output = []
+        self.db = DB()
 
-    <name>input.txt - Each line in file is ran as a DB query.
-    <name>output.txt - The output of running the queries should match this file.
-    """
-    print 'Running: {}'.format(name)
-    print '-' * 30
+        # config
+        self.longMessage = True
+        self.test_data_dir = './test-data/'
 
-    queries = read_lines('./test/{}input.txt'.format(name))
-    expected = read_lines('./test/{}output.txt'.format(name))
-    results = run_queries(queries)
+    def test_basic_commands_1(self):
+        """1st basic sample from http://www.thumbtack.com/challenges."""
+        self.worker('basic-1')
 
-    win, fail, newline = '✓', '✗', True
+    def test_basic_commands_2(self):
+        """2nd basic sample from http://www.thumbtack.com/challenges."""
+        self.worker('basic-2')
 
-    if len(expected) != len(results):
-        print '{} Output results differ in length'.format(fail)
-        print 'expected:', expected
-        print 'actual:', results
-    else:
-        for i, result in enumerate(results):
-            correct = expected[i]
-            if str(result) == correct:
-                print win
-                newline = False
-            else:
-                if not newline:
-                    print ''
-                print '{} expected: {}, actual: {}'.format(fail, correct, result)
-                newline = True
+    def test_transactional_commands_1(self):
+        """1st transactional sample from http://www.thumbtack.com/challenges."""
+        self.worker('transactional-1')
 
-    print '' if newline else '\n'
+    def test_transactional_commands_2(self):
+        """2nd transactional sample from http://www.thumbtack.com/challenges."""
+        self.worker('transactional-2')
 
-def run_queries(queries):
-    """Runs each query and returns a list of results."""
-    db = DB()
-    results = []
+    def test_transactional_commands_3(self):
+        """3rd transactional sample from http://www.thumbtack.com/challenges."""
+        self.worker('transactional-3')
 
-    for query in queries:
-        try:
-            result = db.run(query)
-            if result != None:
-                results.append(result)
-        except SystemExit:
-            break
+    def test_transactional_commands_4(self):
+        """4th transactional sample from http://www.thumbtack.com/challenges."""
+        self.worker('transactional-4')
 
-    return results
+    def worker(self, title):
+        """Tests output from running <title>-in.txt against <title>-out.txt.
 
-def read_lines(filename):
-    """Read and sanitize lines in file."""
-    with open(filename, 'r') as f:
-        return [line.strip() for line in f if line.strip() != None]
+        These txt files should be located in the directory: self.test_data_dir.
+        """
+        out_file = '{}{}-out.txt'.format(self.test_data_dir, title)
+        expected_output = self.read_lines(out_file)
+
+        queries = self.read_lines('{}{}-in.txt'.format(self.test_data_dir, title))
+        self.run_queries(queries)
+        self.assertEqual(len(self.actual_output), len(expected_output),
+                'Query results differ in length from {}'.format(out_file))
+
+        for i, actual in enumerate(self.actual_output):
+            self.assertEqual(str(actual), expected_output[i],
+                    'Query result line {} does not match {}'.format(i+1, out_file))
+
+    def run_queries(self, queries):
+        """Runs queries and stores the results."""
+        for query in queries:
+            try:
+                result = self.db.run(query)
+                if result != None:
+                    self.actual_output.append(result)
+            except SystemExit:
+                break
+
+    def read_lines(self, filename):
+        """Read, sanitize, and return lines in file."""
+        with open(filename, 'r') as f:
+            return [line.strip() for line in f if line.strip() != None]
 
 if __name__ == '__main__':
-    test('test1')
-    test('test2')
-    test('test3')
-    test('test4')
-    test('test5')
-    test('test6')
-
-
+    unittest.main(verbosity=2)

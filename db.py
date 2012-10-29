@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-from nestedstore import NestedStore
 import sys
+
+from nestedstore import NestedStore
 
 class DB:
     """A simple in-memory key-value store with nested transactional blocks."""
