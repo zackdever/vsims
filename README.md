@@ -16,9 +16,8 @@ Supported Commands
 
 Usage
 -----
-`db.py` reads from `stdin` and writes to `stdout`. e.g.
 
-    $ python setup.py shell
+    $ python setup.py -q shell
     SET a 42
     GET a
     42
@@ -26,7 +25,10 @@ Usage
 
 or
 
-    $ python setup.py shell < input.txt > output.txt
+    $ python setup.py -q shell < input.txt > output.txt
+
+    $ # or the DB can be invoked directly
+    $ python vsims/db.py < input.txt > output.txt
 
 Test
 ----

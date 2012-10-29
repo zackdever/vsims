@@ -90,7 +90,6 @@ class DB:
 def shell():
     """A very simple shell."""
     db = DB()
-    print 'Type END to exit.'
 
     while True:
         query = raw_input().strip()
