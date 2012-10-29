@@ -15,6 +15,21 @@ class TestCommand(Command):
         from test import test_thumbtack_examples
         test_thumbtack_examples.test()
 
+
+class ShellCommand(Command):
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        from vsims import db
+        db.shell()
+
+
 setup(
     name='vsims',
     version='0.1',
@@ -25,6 +40,9 @@ setup(
     packages=['vsims',],
     license=open('LICENSE').read(),
     long_description=open('README.md').read(),
-    cmdclass={'test': TestCommand},
+    cmdclass={
+        'shell': ShellCommand,
+        'test': TestCommand,
+    },
 )
 

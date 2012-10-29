@@ -87,8 +87,10 @@ class DB:
             except ValueError:
                 return token
 
-if __name__ == '__main__':
+def shell():
+    """A very simple shell."""
     db = DB()
+    print 'Type END to exit.'
 
     while True:
         query = raw_input().strip()
@@ -96,3 +98,6 @@ if __name__ == '__main__':
             result = db.run(query)
             if result != None:
                 print result
+
+if __name__ == '__main__':
+    shell()

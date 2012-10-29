@@ -18,7 +18,7 @@ Usage
 -----
 `db.py` reads from `stdin` and writes to `stdout`. e.g.
 
-    $ python vsims/db.py
+    $ python setup.py shell
     SET a 42
     GET a
     42
@@ -26,7 +26,7 @@ Usage
 
 or
 
-    $ python vsims/db.py < input.txt > output.txt
+    $ python setup.py shell < input.txt > output.txt
 
 Test
 ----
