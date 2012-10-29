@@ -2,9 +2,9 @@ class Block:
     """A block of operations that can be called in reverse order.
 
     Use: To isolate a block of commands, before executing each command,
-    log a command which will reverse it. Then if needed, simply rollback
-    to undo that block."""
-
+    log a command which will reverse it.
+    Then if needed, simply rollback to undo that block.
+    """
     def __init__(self):
         self.ops = []
 
