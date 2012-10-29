@@ -3,38 +3,54 @@ vsims
 
 A *very simple in-memory* key-value *store* with nested transactional blocks, built for the [Thumbtack Programming Challenge][0].
 
-Supported Commands
-------------------
- * SET <key> <value> - sets key to the value
- * GET <key> - gets the value of the key
- * UNSET <key> - removed the key
- * NUMEQUALTO <value> - gets the number of keys set to the value
- * BEGIN - begin a new transactional block
- * ROLLBACK - rollback the most recently opened transactional block
- * COMMIT - permanently store and close all open transactional blocks
- * END - close the database
+Quick Start
+-----------
 
-Usage
------
-
+```shell
     $ python setup.py -q shell
     SET a 42
     GET a
     42
     END
+```
 
-or
+Works over `stdin` and `stdout`.
 
+```shell
     $ python setup.py -q shell < input.txt > output.txt
+```
 
-    $ # or the DB can be invoked directly
+The DB can be invoked directly if you fancy it.
+
+```shell
     $ python vsims/db.py < input.txt > output.txt
+```
 
 Test
 ----
 To test the thumbtack examples:
 
+```shell
     $ python setup.py test
+```
+
+Install and Python Use
+----------------------
+You already made a virtualenv right?
+
+```shell
+    $ python setup.py install
+```
+
+Just make a new database and you're all set!
+
+```python
+    >>> import vsims
+    >>> db = vsims.DB()
+    >>> db.set('a', 42)
+    >>> db.get('a')
+    42
+```
 
 Instructions Copied from [Thumbtack][0]:
 -----------------------------------
