@@ -1,40 +1,36 @@
 #!/usr/bin/env python
 
+import os
 import unittest
 
-from db import DB
+from vsims.db import DB
 
-class ThumbtackIntegrationTest(unittest.TestCase):
+class TestThumbtackExamples(unittest.TestCase):
+    """Tests the examples at http://www.thumbtack.com/challenges."""
     def setUp(self):
         self.actual_output = []
         self.db = DB()
 
         # config
         self.longMessage = True
-        self.test_data_dir = './test-data/'
+        self.test_data_dir = '{}/data/'.format(os.path.dirname(__file__))
 
     def test_basic_commands_1(self):
-        """1st basic sample from http://www.thumbtack.com/challenges."""
         self.worker('basic-1')
 
     def test_basic_commands_2(self):
-        """2nd basic sample from http://www.thumbtack.com/challenges."""
         self.worker('basic-2')
 
     def test_transactional_commands_1(self):
-        """1st transactional sample from http://www.thumbtack.com/challenges."""
         self.worker('transactional-1')
 
     def test_transactional_commands_2(self):
-        """2nd transactional sample from http://www.thumbtack.com/challenges."""
         self.worker('transactional-2')
 
     def test_transactional_commands_3(self):
-        """3rd transactional sample from http://www.thumbtack.com/challenges."""
         self.worker('transactional-3')
 
     def test_transactional_commands_4(self):
-        """4th transactional sample from http://www.thumbtack.com/challenges."""
         self.worker('transactional-4')
 
     def worker(self, title):
@@ -69,5 +65,9 @@ class ThumbtackIntegrationTest(unittest.TestCase):
         with open(filename, 'r') as f:
             return [line.strip() for line in f if line.strip() != None]
 
+def test():
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestThumbtackExamples)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    test()
